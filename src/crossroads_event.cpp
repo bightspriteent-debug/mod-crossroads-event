@@ -63,27 +63,29 @@ class crossroads_attack_commandscript : public CommandScript
 public:
     crossroads_attack_commandscript() : CommandScript("crossroads_attack_commandscript") { }
 
-    std::vector<ChatCommand> GetCommands() const override
+    ChatCommandTable GetCommands() const override
     {
-        static std::vector<ChatCommand> startCommand =
+        using namespace Acore::ChatCommands;
+
+        static ChatCommandTable startCommand =
         {
-            { "start", SEC_GAMEMASTER, false, &HandleStart, "" }
+            ChatCommandBuilder("start", HandleStart, SEC_GAMEMASTER)
         };
 
-        static std::vector<ChatCommand> attackCommand =
+        static ChatCommandTable attackCommand =
         {
-            { "attack", SEC_GAMEMASTER, false, nullptr, "", startCommand }
+            ChatCommandBuilder("attack", startCommand)
         };
 
-        static std::vector<ChatCommand> rootCommand =
+        static ChatCommandTable rootCommand =
         {
-            { "crossroads", SEC_GAMEMASTER, false, nullptr, "", attackCommand }
+            ChatCommandBuilder("crossroads", attackCommand)
         };
 
         return rootCommand;
     }
 
-    static bool HandleStart(ChatHandler* handler, char const*)
+    static bool HandleStart(ChatHandler* handler, Optional<std::string_view> /*args*/)
     {
         SpawnCrossroadsAttack(handler);
         return true;
