@@ -86,7 +86,7 @@ public:
     }
 };
 
-void AddCrossroadsAttackScripts()
+void AddCrossroadsEventScripts()
 {
     new crossroads_attack_commandscript();
 }

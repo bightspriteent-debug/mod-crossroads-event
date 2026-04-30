@@ -1,6 +1,6 @@
-void AddCrossroadsAttackScripts();
+void AddCrossroadsEventScripts();
 
-void Addmod_crossroads_attackScripts()
+void Addmod_crossroads_eventScripts()
 {
-    AddCrossroadsAttackScripts();
+    AddCrossroadsEventScripts();
 }
