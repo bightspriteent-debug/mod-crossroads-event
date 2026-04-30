@@ -1,7 +1,9 @@
 #include "ScriptMgr.h"
 #include "Chat.h"
-#include "MapManager.h"
+#include "ChatCommand.h"
 #include "Map.h"
+#include "ObjectAccessor.h"
+#include "Player.h"
 #include "Creature.h"
 
 namespace
@@ -24,7 +26,8 @@ namespace
 
     void SpawnCrossroadsAttack(ChatHandler* handler)
     {
-        Map* map = sMapMgr->CreateBaseMap(MAP_KALIMDOR);
+        Player* player = handler->GetSession()->GetPlayer();
+        Map* map = player->GetMap()
 
         if (!map)
         {
