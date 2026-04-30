@@ -5,6 +5,7 @@
 #include "ObjectAccessor.h"
 #include "Player.h"
 #include "Creature.h"
+#include "TemporarySummon.h"
 
 namespace
 {
@@ -27,7 +28,7 @@ namespace
     void SpawnCrossroadsAttack(ChatHandler* handler)
     {
         Player* player = handler->GetSession()->GetPlayer();
-        Map* map = player->GetMap();
+        
 
         if (!map)
         {
@@ -39,13 +40,13 @@ namespace
 
         for (SpawnPoint const& point : SpawnPoints)
         {
-            Creature* creature = map->SummonCreature(
+            Creature* creature = player->SummonCreature(
                 ATTACKER_ENTRY,
                 point.x,
                 point.y,
                 point.z,
                 point.o,
-                nullptr,
+                TEMPSUMMON_TIMED_DESPAWN,
                 DESPAWN_MS
             );
 
