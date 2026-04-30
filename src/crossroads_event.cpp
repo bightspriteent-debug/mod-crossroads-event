@@ -28,7 +28,7 @@ namespace
     void SpawnCrossroadsAttack(ChatHandler* handler)
     {
         Player* player = handler->GetSession()->GetPlayer();
-        
+        Map* map = player->GetMap();
 
         if (!map)
         {
