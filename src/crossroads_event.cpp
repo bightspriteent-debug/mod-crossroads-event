@@ -69,17 +69,17 @@ public:
 
     static ChatCommandTable startCommand =
     {
-        ChatCommandBuilder("start", HandleStart, SEC_GAMEMASTER)
+        ChatCommandBuilder("start", SEC_GAMEMASTER, false, HandleStart)
     };
 
     static ChatCommandTable attackCommand =
     {
-        ChatCommandBuilder("attack", startCommand)
+        ChatCommandBuilder("attack", SEC_GAMEMASTER, false, nullptr, "", startCommand)
     };
 
     static ChatCommandTable rootCommand =
     {
-        ChatCommandBuilder("crossroads", attackCommand)
+        ChatCommandBuilder("crossroads", SEC_GAMEMASTER, false, nullptr, "", attackCommand)
     };
 
     return rootCommand;
