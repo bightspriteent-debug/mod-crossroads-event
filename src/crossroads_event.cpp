@@ -57,35 +57,34 @@ namespace
         handler->PSendSysMessage("Crossroads Attack: spawned %u attackers.", spawned);
     }
 }
+using namespace Acore::ChatCommands;
 
 class crossroads_attack_commandscript : public CommandScript
 {
 public:
     crossroads_attack_commandscript() : CommandScript("crossroads_attack_commandscript") { }
 
-   Acore::ChatCommands::ChatCommandTable GetCommands() const override
-{
-    using namespace Acore::ChatCommands;
-
-    static ChatCommandTable startCommand =
+    ChatCommandTable GetCommands() const override
     {
-        ChatCommandBuilder("start", SEC_GAMEMASTER, false, HandleStart)
-    };
+        static ChatCommandTable startCommand =
+        {
+            { "start", HandleStart, SEC_GAMEMASTER, Console::No }
+        };
 
-    static ChatCommandTable attackCommand =
-    {
-        ChatCommandBuilder("attack", SEC_GAMEMASTER, false, nullptr, "", startCommand)
-    };
+        static ChatCommandTable attackCommand =
+        {
+            { "attack", startCommand }
+        };
 
-    static ChatCommandTable rootCommand =
-    {
-        ChatCommandBuilder("crossroads", SEC_GAMEMASTER, false, nullptr, "", attackCommand)
-    };
+        static ChatCommandTable rootCommand =
+        {
+            { "crossroads", attackCommand }
+        };
 
-    return rootCommand;
-}
+        return rootCommand;
+    }
 
-    static bool HandleStart(ChatHandler* handler, Optional<std::string_view> /*args*/)
+    static bool HandleStart(ChatHandler* handler)
     {
         SpawnCrossroadsAttack(handler);
         return true;
