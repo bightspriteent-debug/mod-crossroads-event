@@ -63,27 +63,27 @@ class crossroads_attack_commandscript : public CommandScript
 public:
     crossroads_attack_commandscript() : CommandScript("crossroads_attack_commandscript") { }
 
-    ChatCommandTable GetCommands() const override
+   Acore::ChatCommands::ChatCommandTable GetCommands() const override
+{
+    using namespace Acore::ChatCommands;
+
+    static ChatCommandTable startCommand =
     {
-        using namespace Acore::ChatCommands;
+        ChatCommandBuilder("start", HandleStart, SEC_GAMEMASTER)
+    };
 
-        static ChatCommandTable startCommand =
-        {
-            ChatCommandBuilder("start", HandleStart, SEC_GAMEMASTER)
-        };
+    static ChatCommandTable attackCommand =
+    {
+        ChatCommandBuilder("attack", startCommand)
+    };
 
-        static ChatCommandTable attackCommand =
-        {
-            ChatCommandBuilder("attack", startCommand)
-        };
+    static ChatCommandTable rootCommand =
+    {
+        ChatCommandBuilder("crossroads", attackCommand)
+    };
 
-        static ChatCommandTable rootCommand =
-        {
-            ChatCommandBuilder("crossroads", attackCommand)
-        };
-
-        return rootCommand;
-    }
+    return rootCommand;
+}
 
     static bool HandleStart(ChatHandler* handler, Optional<std::string_view> /*args*/)
     {
