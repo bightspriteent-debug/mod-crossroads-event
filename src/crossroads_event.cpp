@@ -138,14 +138,13 @@ creature->SetHomePosition(
     creature->GetOrientation()
 );
 
-creature->GetMotionMaster()->Clear(false);
+creature->GetMotionMaster()->Clear();
 
 creature->GetMotionMaster()->MovePoint(
     1,
     AttackPoints[index].x,
     AttackPoints[index].y,
-    AttackPoints[index].z,
-    false
+    AttackPoints[index].z
 );
                 
                 ++spawned;
