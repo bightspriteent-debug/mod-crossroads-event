@@ -105,8 +105,12 @@ namespace
             uint8 eventLevel = GetAverageBarrensPlayerLevel(handler);
             if (creature)
                 creature->SetLevel(eventLevel);
-                creature->SelectLevel();       // 🔥 this recalculates stats
-                creature->SetFullHealth();
+                uint32 health = 80 + (eventLevel * 45);
+                creature->SetMaxHealth(health);
+                creature->SetHealth(health);
+                creature->SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, eventLevel * 2.0f);
+                creature->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, eventLevel * 3.5f);
+                creature->UpdateDamagePhysical(BASE_ATTACK);
                 creature->SetDefaultMovementType(RANDOM_MOTION_TYPE);
                 creature->GetMotionMaster()->Initialize();
                 ++spawned;
@@ -114,7 +118,7 @@ namespace
         // handler->PSendSysMessage("--------------------------");
         // handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
         
-        std::string msg = "Crossroads Attack: spawned" + std::to_string(spawned);
+        std::string msg = "Crossroads Attack: spawned" + std::to_string(eventLevel);
         handler->SendSysMessage(msg.c_str());
     }
 }
