@@ -52,6 +52,8 @@ namespace
 
         if (player->GetZoneId() != ZONE_BARRENS)
             continue;
+
+         uint8 level = player->GetLevel();    
    handler->PSendSysMessage("Player: %s (Level %u)",
             player->GetName().c_str(),
             level);
@@ -70,7 +72,7 @@ namespace
 
     if (averageLevel > MAX_EVENT_LEVEL)
         averageLevel = MAX_EVENT_LEVEL;
-handler->PSendSysMessage("--------------------------");
+    handler->PSendSysMessage("--------------------------");
     handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
     return averageLevel;
 }
