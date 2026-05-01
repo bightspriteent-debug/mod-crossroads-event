@@ -38,6 +38,7 @@ namespace
     uint32 playerCount = 0;
 
     HashMapHolder<Player>::MapType const& players = ObjectAccessor::GetPlayers();
+    handler->PSendSysMessage("---- Barrens Players ----");
 
     for (auto const& pair : players)
     {
@@ -51,6 +52,9 @@ namespace
 
         if (player->GetZoneId() != ZONE_BARRENS)
             continue;
+   handler->PSendSysMessage("Player: %s (Level %u)",
+            player->GetName().c_str(),
+            level);
 
         totalLevel += player->GetLevel();
         ++playerCount;
@@ -66,7 +70,8 @@ namespace
 
     if (averageLevel > MAX_EVENT_LEVEL)
         averageLevel = MAX_EVENT_LEVEL;
-
+handler->PSendSysMessage("--------------------------");
+    handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
     return averageLevel;
 }
 
