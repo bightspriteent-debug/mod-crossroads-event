@@ -127,6 +127,7 @@ namespace
                 creature->SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, eventLevel * 1.5f);
                 creature->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, eventLevel * 2.5f);
                 creature->UpdateDamagePhysical(BASE_ATTACK);
+                uint32 index = spawned % (sizeof(AttackPoints) / sizeof(AttackPoints[0]));
                 creature->SetReactState(REACT_AGGRESSIVE);
 creature->SetWalk(false);
 
