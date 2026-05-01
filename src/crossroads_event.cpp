@@ -6,7 +6,9 @@
 #include "Player.h"
 #include "Creature.h"
 #include "TemporarySummon.h"
+#include "CreatureAI.h"
 #include "MotionMaster.h"
+#include "Unit.h"
 #include "ObjectAccessor.h"
 #include "World.h"
 
@@ -30,6 +32,18 @@ namespace
         { -785.823f, -2836.455f, 91.666f, 0.0f },
         { -785.823f, -2836.455f, 91.666f, 0.0f },
         { -785.823f, -2836.455f, 91.666f, 0.0f },
+    };
+
+    struct TargetPoint
+    {
+    float x, y, z;
+    };
+
+    TargetPoint AttackPoints[] =
+    {
+    { -482.723f, -2735.0f, 92.0f },
+    { -478.0f, -2733.0f, 92.0f },
+    { -474.0f, -2732.0f, 93.0f }
     };
 
     uint8 GetAverageBarrensPlayerLevel(ChatHandler* handler)
@@ -113,8 +127,15 @@ namespace
                 creature->SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, eventLevel * 1.5f);
                 creature->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, eventLevel * 2.5f);
                 creature->UpdateDamagePhysical(BASE_ATTACK);
-                creature->SetDefaultMovementType(RANDOM_MOTION_TYPE);
-                creature->GetMotionMaster()->Initialize();
+                creature->SetReactState(REACT_AGGRESSIVE);
+                uint32 index = spawned % std::size(AttackPoints);
+                creature->GetMotionMaster()->MovePoint(
+                    1,
+                    AttackPoints[index].x,
+                    AttackPoints[index].y,
+                    AttackPoints[index].z
+                );
+                
                 ++spawned;
         }
         // handler->PSendSysMessage("--------------------------");
