@@ -72,7 +72,9 @@ namespace
 
     if (averageLevel > MAX_EVENT_LEVEL)
         averageLevel = MAX_EVENT_LEVEL;
- 
+   
+    std::string msg = "Players average level: " + std::string(averageLevel);
+    handler->SendSysMessage(msg.c_str());
     return averageLevel;
 }
 
@@ -111,7 +113,9 @@ namespace
         }
         // handler->PSendSysMessage("--------------------------");
         // handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
-        handler->PSendSysMessage("Crossroads Attack: spawned %u attackers.", spawned);
+        
+        std::string msg = "Crossroads Attack: spawned" + std::string(spawned);
+        handler->SendSysMessage(msg.c_str());
     }
 }
 using namespace Acore::ChatCommands;
