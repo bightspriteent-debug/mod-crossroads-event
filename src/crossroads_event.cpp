@@ -104,6 +104,7 @@ namespace
             );
             uint8 eventLevel = GetAverageBarrensPlayerLevel(handler);
             std::string msg = "Crossroads Attack: event level" + std::to_string(eventLevel);
+            handler->SendSysMessage(msg.c_str());
             if (creature)
                 creature->SetLevel(eventLevel);
                 uint32 health = 80 + (eventLevel * 45);
@@ -119,8 +120,7 @@ namespace
         // handler->PSendSysMessage("--------------------------");
         // handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
         
-        handler->SendSysMessage(msg.c_str());
-    }
+        }
 }
 using namespace Acore::ChatCommands;
 
