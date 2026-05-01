@@ -128,13 +128,23 @@ namespace
                 creature->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, eventLevel * 2.5f);
                 creature->UpdateDamagePhysical(BASE_ATTACK);
                 creature->SetReactState(REACT_AGGRESSIVE);
-                uint32 index = spawned % std::size(AttackPoints);
-                creature->GetMotionMaster()->MovePoint(
-                    1,
-                    AttackPoints[index].x,
-                    AttackPoints[index].y,
-                    AttackPoints[index].z
-                );
+creature->SetWalk(false);
+
+creature->SetHomePosition(
+    AttackPoints[index].x,
+    AttackPoints[index].y,
+    AttackPoints[index].z,
+    creature->GetOrientation()
+);
+
+creature->GetMotionMaster()->Clear();
+
+creature->GetMotionMaster()->MovePoint(
+    1,
+    AttackPoints[index].x,
+    AttackPoints[index].y,
+    AttackPoints[index].z
+);
                 
                 ++spawned;
         }
