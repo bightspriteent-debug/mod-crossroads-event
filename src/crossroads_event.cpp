@@ -119,7 +119,6 @@ namespace
         // handler->PSendSysMessage("--------------------------");
         // handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
         
-        std::string msg = "Crossroads Attack: spawned" + std::to_string(eventLevel);
         handler->SendSysMessage(msg.c_str());
     }
 }
