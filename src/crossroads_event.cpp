@@ -103,6 +103,7 @@ namespace
                 DESPAWN_MS
             );
             uint8 eventLevel = GetAverageBarrensPlayerLevel(handler);
+            std::string msg = "Crossroads Attack: event level" + std::to_string(eventLevel);
             if (creature)
                 creature->SetLevel(eventLevel);
                 uint32 health = 80 + (eventLevel * 45);
