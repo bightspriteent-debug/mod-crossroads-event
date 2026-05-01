@@ -107,11 +107,11 @@ namespace
             handler->SendSysMessage(msg.c_str());
             if (creature)
                 creature->SetLevel(eventLevel);
-                uint32 health = 80 + (eventLevel * 45);
+                uint32 health = 80 + (eventLevel * 35);
                 creature->SetMaxHealth(health);
                 creature->SetHealth(health);
-                creature->SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, eventLevel * 2.0f);
-                creature->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, eventLevel * 3.5f);
+                creature->SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, eventLevel * 1.5f);
+                creature->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, eventLevel * 2.5f);
                 creature->UpdateDamagePhysical(BASE_ATTACK);
                 creature->SetDefaultMovementType(RANDOM_MOTION_TYPE);
                 creature->GetMotionMaster()->Initialize();
