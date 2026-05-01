@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Creature.h"
 #include "TemporarySummon.h"
+#include "MotionMaster.h"
 
 namespace
 {
@@ -51,6 +52,8 @@ namespace
             );
 
             if (creature)
+                creature->SetDefaultMovementType(RANDOM_MOTION_TYPE);
+                creature->GetMotionMaster()->Initialize();
                 ++spawned;
         }
 
