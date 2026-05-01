@@ -15,7 +15,7 @@
 namespace
 {
     constexpr uint32 MAP_KALIMDOR = 1;
-    constexpr uint32 ATTACKER_ENTRY = 3255;
+    constexpr uint32 ATTACKER_ENTRY = 3456;
     constexpr uint32 DESPAWN_MS = 10 * 60 * 1000;
     constexpr uint32 ZONE_BARRENS = 17;
     constexpr uint8 DEFAULT_EVENT_LEVEL = 15;
