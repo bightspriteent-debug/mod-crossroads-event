@@ -53,10 +53,10 @@ namespace
         if (player->GetZoneId() != ZONE_BARRENS)
             continue;
 
-         uint8 level = player->GetLevel();    
-   handler->PSendSysMessage("Player: %s (Level %u)",
-            player->GetName().c_str(),
-            level);
+        uint8 level = player->GetLevel();    
+        std::string msg = "Player: " + std::string(player->GetName()) + " (Level " + std::to_string(level) + ")";
+
+        handler->SendSysMessage(msg.c_str());
 
         totalLevel += player->GetLevel();
         ++playerCount;
@@ -72,8 +72,7 @@ namespace
 
     if (averageLevel > MAX_EVENT_LEVEL)
         averageLevel = MAX_EVENT_LEVEL;
-    handler->PSendSysMessage("--------------------------");
-    handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
+ 
     return averageLevel;
 }
 
@@ -110,7 +109,8 @@ namespace
                 creature->GetMotionMaster()->Initialize();
                 ++spawned;
         }
-
+        // handler->PSendSysMessage("--------------------------");
+        // handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
         handler->PSendSysMessage("Crossroads Attack: spawned %u attackers.", spawned);
     }
 }
