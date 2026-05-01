@@ -103,7 +103,7 @@ namespace
             uint8 eventLevel = GetAverageBarrensPlayerLevel(handler);
             if (creature)
                 creature->SetLevel(eventLevel);
-                creature->UpdateLevelDependantStats();
+                creature->SelectLevel();       // 🔥 this recalculates stats
                 creature->SetFullHealth();
                 creature->SetDefaultMovementType(RANDOM_MOTION_TYPE);
                 creature->GetMotionMaster()->Initialize();
