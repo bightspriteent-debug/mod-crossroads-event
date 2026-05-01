@@ -7,12 +7,18 @@
 #include "Creature.h"
 #include "TemporarySummon.h"
 #include "MotionMaster.h"
+#include "ObjectAccessor.h"
+#include "World.h"
 
 namespace
 {
     constexpr uint32 MAP_KALIMDOR = 1;
     constexpr uint32 ATTACKER_ENTRY = 3111;
     constexpr uint32 DESPAWN_MS = 10 * 60 * 1000;
+    constexpr uint32 ZONE_BARRENS = 17;
+    constexpr uint8 DEFAULT_EVENT_LEVEL = 15;
+    constexpr uint8 MIN_EVENT_LEVEL = 8;
+    constexpr uint8 MAX_EVENT_LEVEL = 25;
 
     struct SpawnPoint
     {
@@ -25,6 +31,44 @@ namespace
         { -785.823f, -2836.455f, 91.666f, 0.0f },
         { -785.823f, -2836.455f, 91.666f, 0.0f },
     };
+
+    uint8 GetAverageBarrensPlayerLevel()
+    {
+    uint32 totalLevel = 0;
+    uint32 playerCount = 0;
+
+    HashMapHolder<Player>::MapType const& players = ObjectAccessor::GetPlayers();
+
+    for (auto const& pair : players)
+    {
+        Player* player = pair.second;
+
+        if (!player || !player->IsInWorld())
+            continue;
+
+        if (player->IsGameMaster())
+            continue;
+
+        if (player->GetZoneId() != ZONE_BARRENS)
+            continue;
+
+        totalLevel += player->GetLevel();
+        ++playerCount;
+    }
+
+    if (playerCount == 0)
+        return DEFAULT_EVENT_LEVEL;
+
+    uint8 averageLevel = totalLevel / playerCount;
+
+    if (averageLevel < MIN_EVENT_LEVEL)
+        averageLevel = MIN_EVENT_LEVEL;
+
+    if (averageLevel > MAX_EVENT_LEVEL)
+        averageLevel = MAX_EVENT_LEVEL;
+
+    return averageLevel;
+}
 
     void SpawnCrossroadsAttack(ChatHandler* handler)
     {
@@ -50,8 +94,9 @@ namespace
                 TEMPSUMMON_TIMED_DESPAWN,
                 DESPAWN_MS
             );
-
+            uint8 eventLevel = GetAverageBarrensPlayerLevel();
             if (creature)
+                creature->SetLevel(eventLevel);
                 creature->SetDefaultMovementType(RANDOM_MOTION_TYPE);
                 creature->GetMotionMaster()->Initialize();
                 ++spawned;
