@@ -32,7 +32,7 @@ namespace
         { -785.823f, -2836.455f, 91.666f, 0.0f },
     };
 
-    uint8 GetAverageBarrensPlayerLevel()
+    uint8 GetAverageBarrensPlayerLevel(ChatHandler* handler)
     {
     uint32 totalLevel = 0;
     uint32 playerCount = 0;
