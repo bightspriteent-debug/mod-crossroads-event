@@ -73,7 +73,7 @@ namespace
     if (averageLevel > MAX_EVENT_LEVEL)
         averageLevel = MAX_EVENT_LEVEL;
    
-    std::string msg = "Players average level: " + std::string(averageLevel);
+    std::string msg = "Players average level: " + std::to_string(averageLevel);
     handler->SendSysMessage(msg.c_str());
     return averageLevel;
 }
@@ -114,7 +114,7 @@ namespace
         // handler->PSendSysMessage("--------------------------");
         // handler->PSendSysMessage("Average Barrens Level: %u", averageLevel);
         
-        std::string msg = "Crossroads Attack: spawned" + std::string(spawned);
+        std::string msg = "Crossroads Attack: spawned" + std::to_string(spawned);
         handler->SendSysMessage(msg.c_str());
     }
 }
