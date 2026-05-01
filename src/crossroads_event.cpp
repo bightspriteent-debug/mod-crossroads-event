@@ -11,6 +11,7 @@
 #include "Unit.h"
 #include "ObjectAccessor.h"
 #include "World.h"
+#include "Map.h"
 
 namespace
 {
@@ -92,6 +93,53 @@ namespace
     return averageLevel;
 }
 
+    void ScaleAllCrossroadsGuards(uint8 eventLevel, ChatHandler* handler)
+{
+    constexpr uint32 CROSSROADS_GUARD_ENTRY = 3501; // replace with real entry
+    constexpr uint32 ZONE_BARRENS = 17;
+
+    uint32 scaled = 0;
+
+    // Iterate all maps
+    MapManager::MapMapType const& maps = sMapMgr->GetMaps();
+    for (auto const& mapPair : maps)
+    {
+        Map* map = mapPair.second;
+        if (!map || !map->IsDungeon()) // allow world maps; skip instances if you want
+        {
+            // Iterate all creatures on this map
+            Map::CreatureList const& creatures = map->GetCreatureList();
+            for (Creature* guard : creatures)
+            {
+                if (!guard || !guard->IsInWorld() || !guard->IsAlive())
+                    continue;
+
+                // Filter: correct NPC entry and in Barrens (Crossroads area)
+                if (guard->GetEntry() != CROSSROADS_GUARD_ENTRY)
+                    continue;
+
+                if (guard->GetZoneId() != ZONE_BARRENS)
+                    continue;
+
+                // Scale
+                guard->SetLevel(eventLevel);
+
+                uint32 health = 120 + (eventLevel * 60);
+                guard->SetMaxHealth(health);
+                guard->SetHealth(health);
+
+                guard->SetBaseWeaponDamage(BASE_ATTACK, MINDAMAGE, eventLevel * 1.5f);
+                guard->SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, eventLevel * 2.5f);
+                guard->UpdateDamagePhysical(BASE_ATTACK);
+
+                ++scaled;
+            }
+        }
+    }
+
+    handler->PSendSysMessage("Scaled %u Crossroads guards to level %u.", scaled, eventLevel);
+}
+
     void SpawnCrossroadsAttack(ChatHandler* handler)
     {
         Player* player = handler->GetSession()->GetPlayer();
@@ -117,6 +165,7 @@ namespace
                 DESPAWN_MS
             );
             uint8 eventLevel = GetAverageBarrensPlayerLevel(handler);
+            ScaleAllCrossroadsGuards(eventLevel, handler);
             std::string msg = "Crossroads Attack: event level" + std::to_string(eventLevel);
             handler->SendSysMessage(msg.c_str());
             if (creature)
