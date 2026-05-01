@@ -101,7 +101,7 @@ namespace
                 TEMPSUMMON_TIMED_DESPAWN,
                 DESPAWN_MS
             );
-            uint8 eventLevel = GetAverageBarrensPlayerLevel();
+            uint8 eventLevel = GetAverageBarrensPlayerLevel(handler);
             if (creature)
                 creature->SetLevel(eventLevel);
                 creature->SetDefaultMovementType(RANDOM_MOTION_TYPE);
